@@ -1147,11 +1147,16 @@ $(function(){
     //TODO 1: Add corresponding click handler to all HTML buttons
     // The handlers are:
     // #addUserButton -> handleShowUserForm
+    $("#addUserButton").click(handleShowUserForm);
     // #deleteUser -> handleDeleteUser
+     $("#deleteUser").click(handleDeleteUser);
     // #editUser -> handleEditUser
+     $("#editUser").click(handleEditUser);
     // #deleteUserRestricted -> handleDeleteUserRestricted
+     $("#deleteUserRestricted").click(handleDeleteUserRestricted);
     // #createUser -> handleCreateUser
-    //
+     $("#createUser").click(handleCreateUser);
+
     // Check http://api.jquery.com/on/ for more help.
     // To test, in the console do: $(#addUserButton).click()
     
@@ -1159,12 +1164,15 @@ $(function(){
     
     //TODO 1: Add corresponding click handlers for .deleteMessage button and
     // #user_list li a anchors. Since these elements are generated dynamically
+     
     // (they are not in the initial HTML code), you must use delegated events.
     // Recommend delegated elements are #messages_list for .deleteMessage buttons and
     // #user_list for "#user_list li a" anchors.
     // The handlers are:
     // .deleteMessage => handleDeleteMessage
+    $(".deleteMessage").on("click",handleDeleteMessage); 
     // #user_list li a => handleGetUser
+      $("#user_list li a").on("click",handleGetUser);
     // More information for direct and delegated events from http://api.jquery.com/on/
    
 
