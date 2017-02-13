@@ -1190,7 +1190,7 @@ class User_restricted(Resource):
         try:
             country, locality = priv_profile["residence"].split(":")
             address = {"addressCountry": country, "addressLocality": locality}
-        except ValueError:
+        except (AttributeError, ValueError):
             address = {"addressCountry": "", "addressLocality": ""}
         
         envelope = ForumObject(
@@ -1359,7 +1359,7 @@ def redirect_to_rels(rel_name):
 #Send our schema file(s)
 @app.route("/forum/schema/<schema_name>/")
 def send_json_schema(schema_name):
-    return send_from_directory("static/schema", "{}.json".format(schema_name))
+    return send_from_directory(app.static_folder, "schema/{}.json".format(schema_name))
 
 #Start the application
 #DATABASE SHOULD HAVE BEEN POPULATED PREVIOUSLY
