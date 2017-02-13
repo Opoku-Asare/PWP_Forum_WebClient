@@ -1158,7 +1158,7 @@ class User_public(Resource):
         if not g.con.modify_user(nickname, user):
             return create_error_response(404, "Unknown user", "There is no user with nickname {}".format(nickname))
         
-        return '', 204
+        return "", 204
 
 class User_restricted(Resource):
 
@@ -1187,9 +1187,15 @@ class User_restricted(Resource):
         # differ... So, lesson, if you want to be lazy
         # make sure to use the same key names everywhere =p
         
+        try:
+            country, locality = priv_profile["residence"].split(":")
+            address = {"addressCountry": country, "addressLocality": locality}
+        except ValueError:
+            address = {"addressCountry": "", "addressLocality": ""}
+        
         envelope = ForumObject(
             nickname=nickname,
-            address=priv_profile["residence"],
+            address=address,
             birthDate=priv_profile["birthday"],
             email=priv_profile["email"],
             familyName=priv_profile["lastname"],
@@ -1231,7 +1237,7 @@ class User_restricted(Resource):
         
         try:
             priv_profile = dict(
-                residence=request_body["address"],
+                residence="{addressCountry}:{addressLocality}".format(**request_body["address"]),
                 birthday=request_body["birthDate"],
                 email=request_body["email"],
                 lastname=request_body["familyName"],
@@ -1250,7 +1256,7 @@ class User_restricted(Resource):
         if not g.con.modify_user(nickname, user):
             return NotFound()
         
-        return '', 204
+        return "", 204
 
 
 class History(Resource):
