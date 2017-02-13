@@ -203,6 +203,14 @@ function delete_message(apiurl){
         //are required.
     //TODO 4
        //Implemente the handlers following the instructions from the function documentation.
+    $.ajax({
+       
+    }).done(function (data, textStatus, jqXHR){
+       
+
+    }).fail(function (jqXHR, textStatus, errorThrown){
+        
+    });
 }
 
 /**
@@ -331,27 +339,11 @@ function get_message(apiurl){
     
 function messages_history(apiurl){
     return $.ajax({
-        url: apiurl,
-        dataType:DEFAULT_DATATYPE
+       
     }).done(function (data, textStatus, jqXHR){
-        if (DEBUG) {
-            console.log ("RECEIVED RESPONSE: data:",data,"; textStatus:",textStatus);
-        }
-        //Fill number of messages
-        
-
-        //Add message
         
 
     }).fail(function (jqXHR, textStatus, errorThrown){
-        if (DEBUG) {
-            console.log ("RECEIVED ERROR: textStatus:",textStatus, ";error:",errorThrown);
-        }
-        if (jqXHR.status == 404) {
-            //There is no messages for this user
-            
-        }
-        //Inform the user that could not retrieve the history because an error different to status code
        
     });
 }
@@ -446,9 +438,9 @@ function private_data(apiurl){
                 resource_url = user_links["edit"].href;
                 //Extract the template value
                 schema = user_links["edit"].schema;
-                $("#editUserRestricted").show();
                 if (user_links["edit"].schema) {
                     $form = createFormFromSchema(resource_url, schema, "user_restricted_form");
+                    $("#editUserRestricted").show();
                     fillFormWithMasonData($form, data);
                 }
                 else if (user_links["edit"].schemaUrl) {
@@ -457,6 +449,7 @@ function private_data(apiurl){
                         dataType: DEFAULT_DATATYPE
                     }).done(function (schema, textStatus, jqXHR) {
                         $form = createFormFromSchema(resource_url, schema, "user_restricted_form");
+                        $("#editUserRestricted").show();
                         fillFormWithMasonData($form, data);                        
                     }).fail(function (jqXHR, textStatus, errorThrown) {
                         if (DEBUG) {
@@ -812,8 +805,8 @@ function fillFormWithMasonData($form, data) {
         }
     });
     
-    $("form_content", $form).children(".subform > input").each(function() {
-        var parent = this.parent();
+    $(".form_content", $form).children(".subform").children("input").each(function() {
+        var parent = $(this).parent()[0];
         if (data[parent.id][this.id]) {
             $(this).attr("value", data[parent.id][this.id]);
         }
@@ -1115,9 +1108,8 @@ function handleGetUser(event) {
     // and call the function get_user(url) to make the corresponding 
     // HTTP call to the RESTful API. You can extract an HTML attribute using the
     // attr("attribute_name") method from JQuery.
-
     
-
+   
     return false; //IMPORTANT TO AVOID <A> BUBLING
 }
 
@@ -1153,13 +1145,16 @@ $(function(){
     // #editUser -> handleEditUser
      $("#editUser").click(handleEditUser);
     // #deleteUserRestricted -> handleDeleteUserRestricted
+
      $("#deleteUserRestricted").click(handleDeleteUserRestricted);
+
+    // #editUserRestricted -> handleEditUserRestricted
+
     // #createUser -> handleCreateUser
      $("#createUser").click(handleCreateUser);
 
     // Check http://api.jquery.com/on/ for more help.
-    // To test, in the console do: $(#addUserButton).click()
-    
+   
 
     
     //TODO 1: Add corresponding click handlers for .deleteMessage button and
@@ -1174,7 +1169,7 @@ $(function(){
     // #user_list li a => handleGetUser
       $("#user_list li a").on("click",handleGetUser);
     // More information for direct and delegated events from http://api.jquery.com/on/
-   
+    
 
     
     //Retrieve list of users from the server
