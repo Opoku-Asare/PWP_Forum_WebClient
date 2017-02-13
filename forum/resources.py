@@ -8,7 +8,7 @@ Modified on 05.02.2017
 import json
 
 from flask import Flask, request, Response, g, _request_ctx_stack, redirect, send_from_directory
-from flask.ext.restful import Resource, Api, abort
+from flask_restful import Resource, Api, abort
 from werkzeug.exceptions import HTTPException, NotFound
 
 
@@ -1158,7 +1158,7 @@ class User_public(Resource):
         if not g.con.modify_user(nickname, user):
             return create_error_response(404, "Unknown user", "There is no user with nickname {}".format(nickname))
         
-        return "", 204
+        return '', 204
 
 class User_restricted(Resource):
 
@@ -1186,16 +1186,15 @@ class User_restricted(Resource):
         # with private profile because some of the keys
         # differ... So, lesson, if you want to be lazy
         # make sure to use the same key names everywhere =p
-        
         try:
             country, locality = priv_profile["residence"].split(":")
             address = {"addressCountry": country, "addressLocality": locality}
-        except ValueError:
+        except(AttributeError, ValueError):
             address = {"addressCountry": "", "addressLocality": ""}
         
         envelope = ForumObject(
             nickname=nickname,
-            address=address,
+             address=address,
             birthDate=priv_profile["birthday"],
             email=priv_profile["email"],
             familyName=priv_profile["lastname"],
@@ -1256,7 +1255,7 @@ class User_restricted(Resource):
         if not g.con.modify_user(nickname, user):
             return NotFound()
         
-        return "", 204
+        return '', 204
 
 
 class History(Resource):
